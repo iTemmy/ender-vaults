@@ -46,6 +46,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import v1_20_R1.v1_20_R1NMS;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -201,6 +202,10 @@ public class EVBukkitPlugin extends JavaPlugin implements EnderVaultsPlugin {
             case v1_19_R2:
             case v1_19_R3:
                 bridge = new v1_19_R2NMS();
+                break;
+            case v1_20_R1:
+            case v1_20_R2:
+                bridge = new v1_20_R1NMS();
                 break;
             default:
                 throw new InvalidMinecraftVersionException("Minecraft " + version.name() + " not supported.");
