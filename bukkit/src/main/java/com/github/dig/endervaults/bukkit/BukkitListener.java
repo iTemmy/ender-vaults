@@ -9,7 +9,6 @@ import com.github.dig.endervaults.bukkit.vault.BukkitVaultRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +44,10 @@ public class BukkitListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfigFile().getConfiguration();
         BukkitTask bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,
-                () -> persister.load(player.getUniqueId()),
+                () -> {
+                    persister.load(player.getUniqueId());
+                    pendingLoadMap.remove(player.getUniqueId());
+                },
                 config.getLong("storage.settings.load-delay", 5 * 20));
         pendingLoadMap.put(player.getUniqueId(), bukkitTask);
     }
@@ -71,6 +73,12 @@ public class BukkitListener implements Listener {
         if (inventory != null && item != null && isBlacklistEnabled()) {
             if (!permission.canBypassBlacklist(player) && getBlacklisted().contains(item.getType()) && registry.isVault(inventory)) {
                 player.sendMessage(plugin.getLanguage().get(Lang.BLACKLISTED_ITEM));
+                event.setCancelled(true);
+            }
+        }
+
+        if (inventory != null && registry.isVault(inventory) && isBlacklistEnabled()) {
+            if (event.getClick().isKeyboardClick() && !permission.canBypassBlacklist(player)) {
                 event.setCancelled(true);
             }
         }
