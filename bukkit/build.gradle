@@ -3,6 +3,7 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     maven { url = 'https://repo.codemc.org/repository/maven-public/' }
     maven { url = 'https://repo.papermc.io/repository/maven-public/'}
 }
@@ -18,7 +19,8 @@ dependencies {
     implementation project(':v1_19_R2')
     implementation project(':v1_20_R1')
     implementation project(':v1_20_R2')
-    compileOnly 'io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT'
+    implementation project(":v1_20_R4")
+    compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
     implementation 'com.zaxxer:HikariCP:5.0.1'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
     implementation 'de.tr7zw:item-nbt-api:2.12.1'

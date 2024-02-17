@@ -85,8 +85,8 @@ public class v1_20_R2NMS implements VaultNMS {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(encoded));
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
 
-        Object nbtReadLimiter = nbtReadLimiterClass.getConstructor(long.class).newInstance(Long.MAX_VALUE);
-        Object readInvoke = readNbt.invoke(null, dataInputStream, 0, nbtReadLimiter);
+        Object nbtReadLimiter = nbtReadLimiterClass.getConstructor(long.class, int.class).newInstance(Long.MAX_VALUE, Integer.MAX_VALUE);
+        Object readInvoke = readNbt.invoke(null, dataInputStream, nbtReadLimiter);
 
         Object nbtTagList = nbtTagListClass.cast(readInvoke);
         Method nbtTagListSizeMethod = nbtTagListClass.getMethod("size"); //correct
