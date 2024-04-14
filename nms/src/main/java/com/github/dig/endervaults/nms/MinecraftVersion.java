@@ -34,5 +34,6 @@ public enum MinecraftVersion {
     v1_19_R3,
 
     v1_20_R1,
-    v1_20_R2
+    v1_20_R2,
+    v1_20_R4
 }
